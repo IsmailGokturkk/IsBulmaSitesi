@@ -22,7 +22,7 @@ namespace IsBulma.Models
         [DisplayName("İkon")]
         public string Icon { get; set; }
 
-        public List<Job> jobs { get; set; }
+      
 
 
     }

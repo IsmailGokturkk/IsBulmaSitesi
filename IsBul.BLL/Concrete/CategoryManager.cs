@@ -39,6 +39,11 @@ namespace IsBul.BLL.Concrete
             return _categoryDal.GetById(id);
         }
 
+        public Category GetOne(Expression<Func<Category, bool>> filter = null)
+        {
+            return _categoryDal.GetOne(filter);
+        }
+
         public void Update(Category entity)
         {
             _categoryDal.Update(entity);

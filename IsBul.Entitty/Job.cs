@@ -29,7 +29,11 @@ namespace IsBul.Entitty
         public string Qualifications { get; set; }
         public string DateLine { get; set; }
 
-
+        
+        public int CompanyDetailId { get; set; }
+        public CompanyDetail CompanyDetail { get; set; }
+       
+        
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 

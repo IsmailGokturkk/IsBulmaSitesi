@@ -10,6 +10,6 @@ namespace IsBul.BLL.Abstract
 {
    public interface ICategoryService: IRepositoryService<Category>
     {
-        
+        Category GetOne(Expression<Func<Category, bool>> filter = null);
     }
 }

@@ -19,6 +19,7 @@ namespace IsBul.Entitty
         public string PhoneNumber { get; set; }
 
 
+        public List<CompanyDetail> CompanyDetails { get;}
       
     }
 }
