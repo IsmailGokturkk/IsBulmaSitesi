@@ -21,6 +21,10 @@ namespace IsBul.Entitty
         public decimal Salary { get; set; }
         public string Location { get; set; }
         public int JobId { get; set; }
+       
+        
+        
+        
         public Job Job { get; set; }
 
         

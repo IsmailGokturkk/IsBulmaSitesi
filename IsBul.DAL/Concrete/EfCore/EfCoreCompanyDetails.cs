@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IsBul.DAL.Concrete.EfCore
 {
-    internal class EfCoreCompanyDetails:EfCoreGenericRepository<CompanyDetail ,DataContext> ,ICompanyDetailDal
+    public class EfCoreCompanyDetails:EfCoreGenericRepository<CompanyDetail ,DataContext> ,ICompanyDetailDal
     {
 
     }

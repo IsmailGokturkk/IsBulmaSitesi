@@ -1,0 +1,73 @@
+﻿@model List<ResultJobDTO>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@if(ViewBag.Message!=null){
+    <script>function() { alert("fsafasfas") }</script>
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Emlak Listesi</h3>
+                <div class="card-tools">
+                    <div class="input-group input-group-sm">
+                        <a href="/Job/Create" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-plus"></i> Yeni İlan
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Resim</th>
+                            <th>Başlık</th>
+                            <th>Fiyat</th>
+                            <th>Şehir</th>
+                            <th>Açıklama</th>
+                            <th>Sorumluluk</th>
+                            <th>Yeterlilik</th>
+                            <th>Durum</th>
+                            <th>Şirket Adı</th>
+                            <th>Tarih</th>
+                            <th>Güncelle</th>
+                            <th>Sil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pr in Model)
+                        {
+                            <tr>
+                                <td>@pr.Id</td>
+                                 <td><img class="img-fluid" src="~/RealEstate/img/@pr.CoverImage" alt="Icon"></td> 
+                                <td>@pr.Title</td>
+                                <td>@pr.Salary</td>
+                                <td>@pr.City</td>
+                                <td>@pr.Location</td>
+                                <td style="white-space: pre-wrap;">@pr.JobDescription</td>
+                             @*    <td style="white-space: pre-wrap;">@pr.Responsibility</td>
+                                <td style="white-space: pre-wrap;">@pr.Qualifications</td> *@
+                                <td>@pr.JobNature</td>
+                                <td>@pr.CompanyName</td>
+                                <td>@pr.DateLine>
+                                <td><a href="/Job/Edit?id=@pr.Id" class="btn btn-outline-warning">Güncelle</a></td>
+                                <td><a href="/Job/Delete?id=@pr.Id" class="btn btn-outline-danger">Sil</a></td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>

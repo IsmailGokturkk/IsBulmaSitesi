@@ -2,6 +2,7 @@ using IsBul.BLL.Abstract;
 using IsBul.BLL.Concrete;
 using IsBul.DAL.Abstract;
 using IsBul.DAL.Concrete.EfCore;
+using IsBulma.Mapping;
 
 namespace IsBulma
 {
@@ -13,6 +14,9 @@ namespace IsBulma
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
                     
             
@@ -36,7 +40,10 @@ namespace IsBulma
 
             builder.Services.AddScoped<IJobDetailService,JobDetailManager>();
             builder.Services.AddScoped<IJobDetailDal,EfCoreJobDetailDal>();
-       
+
+            builder.Services.AddScoped< ICompanyDetailService,CompanyDetailManager>();
+            builder.Services.AddScoped<ICompanyDetailDal, EfCoreCompanyDetails>();
+
 
 
 

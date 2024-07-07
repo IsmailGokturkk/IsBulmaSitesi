@@ -1,4 +1,7 @@
-﻿using IsBul.BLL.Abstract;
+﻿using AutoMapper;
+using IsBul.BLL.Abstract;
+using IsBul.BLL.DTOs.JobDTO;
+using IsBul.Entitty;
 using IsBulma.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,34 +9,21 @@ namespace IsBulma.ViewComponents.Home
 {
     public class _HomeJobsViewComponentPartial:ViewComponent
     {
+        private readonly IMapper _mapper;
         private readonly IJobService _jobService;
 
-        public _HomeJobsViewComponentPartial(IJobService jobService)
+        public _HomeJobsViewComponentPartial(IJobService jobService, IMapper mapper)
         {
+            _mapper = mapper;
             _jobService = jobService;
         }
         public IViewComponentResult Invoke()
         {
-            List<ResultJobModel> resultJobModels = new List<ResultJobModel>();
+            var jobs = _jobService.GetAll();
 
-            foreach(var item in _jobService.GetAll())
-            {
-                resultJobModels.Add(new ResultJobModel()
-                {
-                   
-                    Id = item.Id,
-                    CompanyName = item.CompanyName,
-                    Title = item.Title,
-                    Salary = item.Salary,
-                    City = item.City,
-                    JobNature = item.JobNature,
-                    CoverImage = item.CoverImage,
-                    DateLine = item.DateLine,
-                    
-                });
-            }
+            List<ResultJobDTO> resultJobDTO = _mapper.Map<List<ResultJobDTO>>(jobs);
 
-            return View(resultJobModels);
+            return View(resultJobDTO);
         
         }
     }

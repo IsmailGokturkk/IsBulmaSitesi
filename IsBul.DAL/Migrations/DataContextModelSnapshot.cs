@@ -91,9 +91,6 @@ namespace IsBul.DAL.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
-                    b.Property<int?>("CompanyDetailId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -109,8 +106,6 @@ namespace IsBul.DAL.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyDetailId");
 
                     b.ToTable("CompanyDetails");
                 });
@@ -187,10 +182,6 @@ namespace IsBul.DAL.Migrations
 
                     b.Property<int>("CompanyDetailId")
                         .HasColumnType("int");
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoverImage")
                         .IsRequired()
@@ -306,13 +297,6 @@ namespace IsBul.DAL.Migrations
                     b.ToTable("WhoWeAres");
                 });
 
-            modelBuilder.Entity("IsBul.Entitty.CompanyDetail", b =>
-                {
-                    b.HasOne("IsBul.Entitty.CompanyDetail", null)
-                        .WithMany("CompanyDetails")
-                        .HasForeignKey("CompanyDetailId");
-                });
-
             modelBuilder.Entity("IsBul.Entitty.Job", b =>
                 {
                     b.HasOne("IsBul.Entitty.Category", "Category")
@@ -346,11 +330,6 @@ namespace IsBul.DAL.Migrations
             modelBuilder.Entity("IsBul.Entitty.Category", b =>
                 {
                     b.Navigation("Jobs");
-                });
-
-            modelBuilder.Entity("IsBul.Entitty.CompanyDetail", b =>
-                {
-                    b.Navigation("CompanyDetails");
                 });
 #pragma warning restore 612, 618
         }

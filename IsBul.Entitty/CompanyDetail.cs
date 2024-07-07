@@ -18,8 +18,10 @@ namespace IsBul.Entitty
         [StringLength(10)]
         public string PhoneNumber { get; set; }
 
+        public List<Job> Jobs { get; set; }
 
-        public List<CompanyDetail> CompanyDetails { get;}
+
+        //public List<CompanyDetail> CompanyDetails { get;}
       
     }
 }

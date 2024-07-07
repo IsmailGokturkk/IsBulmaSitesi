@@ -10,8 +10,7 @@ namespace IsBul.Entitty
     public class Job
     {
         public int Id { get; set; }
-
-        public string CompanyName { get; set; }
+              
         [StringLength(100)]
         public string Title { get; set; }
         public decimal Salary { get; set; }
@@ -30,8 +29,8 @@ namespace IsBul.Entitty
         public string DateLine { get; set; }
 
         
-        public int CompanyDetailId { get; set; }
-        public CompanyDetail CompanyDetail { get; set; }
+       public int CompanyDetailId { get; set; }
+       public CompanyDetail CompanyDetail { get; set; }
        
         
         public int CategoryId { get; set; }

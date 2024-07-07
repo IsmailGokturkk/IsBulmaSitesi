@@ -35,7 +35,7 @@ namespace IsBul.BLL.Concrete
 
         public Job GetById(int id)
         {
-            throw new NotImplementedException();
+            return _jobDal.GetById(id);
         }
 
         public void Update(Job entity)

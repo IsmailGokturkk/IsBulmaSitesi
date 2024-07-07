@@ -1,5 +1,8 @@
-﻿using IsBul.BLL.Abstract;
+﻿using AutoMapper;
+using IsBul.BLL.Abstract;
+using IsBul.BLL.DTOs.CategoryDTO;
 using IsBul.Entitty;
+using IsBulma.Mapping;
 using IsBulma.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,37 +11,31 @@ namespace IsBulma.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, IMapper mapper)
         {
             _categoryService = categoryService;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            var models = new List<CategoryModel > ();
+            List<ResultCategoryDTO> models = _mapper.Map<List<ResultCategoryDTO>>(_categoryService.GetAll());
 
-            foreach(var item in _categoryService.GetAll())
-            {
-                models.Add(new CategoryModel()
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Status = item.Status,
-                    Icon = item.Icon,
-
-                });
-            }
             return View(models);
         }
         public ActionResult Create()
         {
-            return View(new CategoryModel());
+            //List<CreateCategoryDTO> models = _mapper.Map<List<CreateCategoryDTO>>(_categoryService.GetAll()); 
+            
+            return View(new CreateCategoryDTO());
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateAsync(CategoryModel model, IFormFile file)
+        public async Task<ActionResult> CreateAsync(CreateCategoryDTO model, IFormFile file)
         {
             ModelState.Remove("Icon");
             if (ModelState.IsValid)
@@ -57,14 +54,10 @@ namespace IsBulma.Controllers
                     return View(model);
                 }
 
-                UploadImage(file);
+                model.Icon = await ImageMethod.UploadImage(file);
 
-                _categoryService.Create(new Category()
-                {
-                    Name = model.Name,
-                    Icon = file.FileName,
-                    Status = model.Status
-                });
+                _categoryService.Create(_mapper.Map<Category>(model));
+              
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -75,22 +68,18 @@ namespace IsBulma.Controllers
             var cat = _categoryService.GetById(id);
             if (cat != null)
             {
-                return View(new CategoryModel()
-                {
-                    Id = cat.Id,
-                    Icon = cat.Icon,
-                    Name = cat.Name,
-                    Status = cat.Status
-                });
+                return View(_mapper.Map<UpdateCategoryDTO>(cat));
             }
             return NotFound();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CategoryModel model, IFormFile file)
+        public async Task<IActionResult> Edit(UpdateCategoryDTO model, IFormFile file)
         {
+            ModelState.Remove("file");
             ModelState.Remove("Icon");
+
             if (ModelState.IsValid)
             {
                 var cat = _categoryService.GetById(model.Id);
@@ -102,9 +91,9 @@ namespace IsBulma.Controllers
 
                 if (file != null)
                 {
-                    DeleteImage(cat.Icon);
-                    cat.Icon = file.FileName;
-                    UploadImage(file);
+                    ImageMethod.DeleteImage(cat.Icon);
+                    cat.Icon =await ImageMethod.UploadImage(file);
+
                 }
 
                 cat.Status = model.Status;
@@ -124,32 +113,15 @@ namespace IsBulma.Controllers
             {
                 _categoryService.Delete(cat);
 
-                DeleteImage(cat.Icon);
+                ImageMethod.DeleteImage(cat.Icon);
 
                 return RedirectToAction("Index");
             }
             return View();
-        }
+        
 
 
-        private void DeleteImage(string fileName)
-        {
-            var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\RealEstate\\img", fileName);
-
-            if (System.IO.File.Exists(oldImagePath))
-            {
-                System.IO.File.Delete(oldImagePath);
-            }
-        }
-
-        private async void UploadImage(IFormFile file)
-        {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\RealEstate\\img", file.FileName);
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+       
         }
     }
 }

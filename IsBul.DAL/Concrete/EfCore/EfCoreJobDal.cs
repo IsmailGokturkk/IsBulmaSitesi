@@ -17,12 +17,14 @@ namespace IsBul.DAL.Concrete.EfCore
         {
             using (var context = new DataContext())
             {
-                var jobs=context.Jobs.Include(i=>i.Category).AsQueryable();
+                var jobs = context.Jobs.Include(i => i.Category).Include(i => i.CompanyDetail).AsQueryable();
 
-                return filter ==null
-                    ?jobs.ToList()
-                    :jobs.Where(filter).ToList();
-            }
+
+                return filter == null
+                    ? jobs.ToList()
+                    : jobs.Where(filter).ToList();
+
+            } 
         }
     }
 }
